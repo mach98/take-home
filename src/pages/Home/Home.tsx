@@ -1,5 +1,5 @@
 import React from 'react';
-import MainWidget from '../../components/MainWidget/MainWIdget';
+import MainWidget from '../../components/MainWidget/MainWidget';
 
 const Home = () => {
   return (

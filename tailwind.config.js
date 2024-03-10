@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         widgetsBgColor: '#FFF9F2',
+        sendMoneyButton: '#6931a1',
       },
     },
   },

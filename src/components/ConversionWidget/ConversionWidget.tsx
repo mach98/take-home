@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { Icon, createIcon } from '@chakra-ui/react';
+import { currencyType } from '../MainWidget/MainWidget';
 
-const ConversionWidget = () => {
+interface ConversionWidgetProp {
+  sendCurrency: currencyType;
+  sendCurrencyValue: string;
+  receivingCurrency: currencyType;
+  rate: number;
+}
+
+const ConversionWidget: FC<ConversionWidgetProp> = ({
+  sendCurrency,
+  sendCurrencyValue,
+  receivingCurrency,
+  rate,
+}) => {
   return (
-    <div className='w-1/2 px-3'>
-      <div className='flex flex-row justify-between my-2'>
+    <div className='w-full px-3'>
+      <div className='flex flex-row justify-between my-4'>
         <h4>Fee</h4>
         <h4 className='font-semibold'>FREE</h4>
       </div>
-      <div className='flex flex-row justify-between my-2'>
+      <div className='flex flex-row justify-between my-4'>
         <h4>Total to pay</h4>
-        <h4>0.00</h4>
+        <h4>{`${parseFloat(sendCurrencyValue)} ${sendCurrency}`}</h4>
       </div>
-      <div className='flex flex-row justify-between my-2'>
+      <div className='flex flex-row justify-between my-4'>
         <h4>Rate + Bonus</h4>
-        <h4>1 + 2223232</h4>
+        <h4>{`1 ${sendCurrency} = ${rate} ${receivingCurrency}`}</h4>
       </div>
     </div>
   );
