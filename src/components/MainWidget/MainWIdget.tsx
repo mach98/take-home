@@ -66,6 +66,13 @@ const MainWidget = () => {
     fetchCurrency();
   }, [sendCurrency]);
 
+  useEffect(() => {
+    const newReceiveCurrencyValue = (
+      parseFloat(sendCurrencyValue) * (rates[receiveCurrency] || 0)
+    ).toString();
+    setReceiveCurrencyValue(newReceiveCurrencyValue);
+  }, [sendCurrencyValue, rates, receiveCurrency]);
+
   return (
     <div className='flex-1 bg-widgetsBgColor rounded-lg shadow-xl w-1/3 p-4 items-center'>
       <CurrencyWidget
