@@ -1,13 +1,23 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import CurrencyWidget from '../CurrencyWidget/CurrencyWidget';
 import ConversionWidget from '../ConversionWidget/ConversionWidget';
-import SendMoneyButton from '../SendMoneyButton/SendMoneyButton';
 import axios from 'axios';
+import PaymentWithPaystack from '../PaymentWithPaystack/PaymentWithPaystack';
 
 export type currencyType = 'USD' | 'EUR' | 'GBP';
 type Rates = {
   [key in currencyType]?: number;
 };
+
+interface PaymentRef {
+  message: string;
+  redirecturl: string;
+  reference: number;
+  status: string;
+  trans: number;
+  transaction: number;
+  trxref: number;
+}
 
 const MainWidget = () => {
   const [sendCurrency, setSendCurrency] = useState<currencyType>('USD');
@@ -15,6 +25,10 @@ const MainWidget = () => {
   const [receiveCurrency, setReceiveCurrency] = useState<currencyType>('GBP');
   const [receiveCurrencyValue, setReceiveCurrencyValue] = useState('0');
   const [rates, setRates] = useState<Rates>({});
+
+  const paymentResponse = (ref: PaymentRef) => {
+    console.log(ref);
+  };
 
   const handleSendCurrency = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedCurrency = event.target.value as currencyType;
@@ -52,12 +66,6 @@ const MainWidget = () => {
     fetchCurrency();
   }, [sendCurrency]);
 
-  useEffect(() => {
-    const newReceiveCurrencyValue = (
-      parseFloat(sendCurrencyValue) * (rates[receiveCurrency] || 0)
-    ).toString();
-    setReceiveCurrencyValue(newReceiveCurrencyValue);
-  }, [sendCurrencyValue, rates, receiveCurrency]);
   return (
     <div className='flex-1 bg-widgetsBgColor rounded-lg shadow-xl w-1/3 p-4 items-center'>
       <CurrencyWidget
@@ -87,7 +95,10 @@ const MainWidget = () => {
           setSendCurrencyValue(newSendCurrencyValue);
         }}
       />
-      <SendMoneyButton onClick={() => console.log(rates)} />
+      <PaymentWithPaystack
+        amount={parseFloat(sendCurrencyValue)}
+        paymentResponse={paymentResponse}
+      />
     </div>
   );
 };

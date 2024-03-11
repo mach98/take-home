@@ -49,6 +49,7 @@ const CurrencyWidget: FC<CurrencyWidgetProps> = ({
             placeholder={placeholderValue}
             onChange={handleInputChange}
             type='number'
+            required
           />
         </div>
       </div>
